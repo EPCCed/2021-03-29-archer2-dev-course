@@ -1,4 +1,4 @@
-# ARCHER2 for package users
+# Introduction to ARCHER2 for software developers
 
 This is not an official Carpentries lesson, but the Carpentries lesson template is excellent, so we are using it.
 

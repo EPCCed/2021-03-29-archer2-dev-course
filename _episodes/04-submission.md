@@ -34,7 +34,7 @@ and Best Practice Guide](https://docs.archer2.ac.uk/user-guide/scheduler.html).
 The `sinfo` command shows the current state of the compute nodes known to the scheduler:
 
 ```
-auser@login01-nmn:~> sinfo
+auser@uan01:~> sinfo
 ```
 {: .language-bash}
 ```
@@ -75,7 +75,7 @@ If you prefer to see the state of individual nodes, you can use the `sinfo -N -l
 {: .callout}
 
 ```
-auser@login01-nmn:~> sinfo -N -l
+auser@uan01:~> sinfo -N -l
 ```
 {: .language-bash}
 ```
@@ -100,7 +100,7 @@ nid001008      1    standard        idle  256   2:64:2 244046        0      1   
 > command to see the name, CPUs and memory available on the worker nodes (the instructors will give you the ID of
 > the compute node to use):
 > ```
-> [auser@login01-nmn:~> sinfo -n nid001005 -o "%n %c %m"
+> [auser@uan01:~> sinfo -n nid001005 -o "%n %c %m"
 > ```
 > {: .language-bash}
 > This should display the resources available for a standard node. Can you use `sinfo` to find out the range of
@@ -109,7 +109,7 @@ nid001008      1    standard        idle  256   2:64:2 244046        0      1   
 > > The high memory nodes have IDs `nid001001-nid001004`. You can get this by using:
 > >
 > > ```
-> > auser@login01-nmn:~> sinfo -N -l -S "-m" | less
+> > auser@uan01:~> sinfo -N -l -S "-m" | less
 > > ```
 > > {: .language-bash}
 > >
@@ -170,7 +170,7 @@ The options shown here are:
 * `--time=0:10:0` - Set 10 minutes maximum walltime for this job
 * `--partition=standard` - Submit to the standard set of nodes
 * `--qos=standard` - Submit with the standard quality of service settings.
-* `--account=t01` - Charge the job to the `t01` budget
+* `--account={{site.gid}}` - Charge the job to the `{{site.gid}}` budget
 
 We will discuss the `srun` command further below.
 
@@ -180,7 +180,7 @@ You use the `sbatch` command to submit job submission scripts to the scheduler. 
 above script was saved in a file called `test_job.slurm`, you would submit it with:
 
 ```
-auser@login01-nmn:~> sbatch test_job.slurm
+auser@uan01:~> sbatch test_job.slurm
 ```
 {: .language-bash}
 ```
@@ -229,7 +229,7 @@ Slurm reports back with the job ID for the job you have submitted
 > > the job. For example, if the job ID was "12345", then we could query the time limit with:
 > > 
 > > ```
-> > auser@login01-nmn:~> sacct -o "TimeLimit" -j 12345
+> > auser@uan01:~> sacct -o "TimeLimit" -j 12345
 > > ```
 > > {: .language-bash}
 > > ```
@@ -249,7 +249,7 @@ You use the `squeue` command to show the current state of the queues on ARCHER2.
 will show all jobs in the queue:
 
 ```
-auser@login01-nmn:~> squeue
+auser@uan01:~> squeue
 ```
 {: .language-bash}
 ```
@@ -340,7 +340,7 @@ per node and 16 OpenMP threads per MPI task (so all 256 cores across both nodes 
 #SBATCH --time=0:10:0
 #SBATCH --partition=standard
 #SBATCH --qos=standard
-#SBATCH --account=t01
+#SBATCH --account={{site.gid}}
 
 module load xthi
 
@@ -397,10 +397,10 @@ For example, to execute `xthi` across all cores on two nodes (1 MPI task per cor
 OpenMP threading) within an interactive job you would issue the following commands:
 
 ```
-auser@login01-nmn:~> salloc --nodes=2 --ntasks-per-node=128 --cpus-per-task=1 --time=0:10:0 --account=t01
+auser@uan01:~> salloc --nodes=2 --ntasks-per-node=128 --cpus-per-task=1 --time=0:10:0 --account={{site.gid}}
 salloc: Granted job allocation 24236
-auser@login01-nmn:~> module load xthi
-auser@login01-nmn:~> srun xthi
+auser@uan01:~> module load xthi
+auser@uan01:~> srun xthi
 ```
 {: .language-bash}
 ```
@@ -429,10 +429,10 @@ Hello from rank 53, thread 0, on nid001001. (core affinity = 86,214)
 Once you have finished your interactive commands, you exit the interactive job with `exit`:
 
 ```
-auser@login01-nmn:~> exit
+auser@uan01:~> exit
 exit
 salloc: Relinquishing job allocation 24236
-auser@login01-nmn:~>
+auser@uan01:~>
 ```
 {: .language-bash}
 

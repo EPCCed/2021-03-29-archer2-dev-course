@@ -2,7 +2,7 @@
 title: "Next steps"
 teaching: 30
 exercises: 0
-start: True
+start: False
 questions:
 - "Where can I get further help on using ARCHER2?"
 - "What other training is available to me?"

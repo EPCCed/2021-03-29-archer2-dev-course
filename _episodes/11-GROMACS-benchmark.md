@@ -1,5 +1,5 @@
 ---
-title: "PRACTICAL: Benchmarking Molecular Dynamics Performance Using GROMACS 1"
+title: "OPTIONAL PRACTICAL: Benchmarking Molecular Dynamics Performance Using GROMACS"
 teaching: 20
 exercises: 60
 questions:

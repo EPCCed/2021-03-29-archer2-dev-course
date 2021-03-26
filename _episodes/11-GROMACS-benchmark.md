@@ -15,8 +15,11 @@ keypoints:
 ## Aims
 
 In this exercise, you will be running molecular dynamics simulations using
-[GROMACS](https://manual.gromacs.org/). You will be benchmarking how
-efficiently a small system will run as you increase the number of processors.
+[GROMACS](https://manual.gromacs.org/). You will begin by benchmarking the
+strong-scaling performance of an 80k-atom GROMACS simulation. You will also be
+looking at the effects on performance that increasing the number of OMP thread
+count has when running GROMACS on a single node. Finally, you can see how
+multithreading and dynamic load balancing can impact performance.
 
 ## Measuring strong scaling
 
@@ -108,7 +111,7 @@ of cores being used? You can vary this by changing
 
  ---
 
-## Measuring hybrid OpenMP + MPI performance on one node
+## Measuring hybrid OpenMP + MPI performance on a single node
 
 GROMACS can  run  in  parallel using  MPI  and  simultaneously  also  using
 OpenMP  threads (see [here](http://manual.gromacs.org/current/user-guide/mdrun-performance.html#multi-level-parallelization-mpi-and-openmp)).
@@ -164,9 +167,7 @@ You may find it helpful to fill out this table
 |        16 |              8 | | |
 |         8 |             16 | | |
 
-## Part 3
-
-## Two hardware threads per core
+## Multithreading and performance
 
 The `--hint=nomultithread` asks SLURM to ignore the possibility of running
 two threads per core. If we remove this option, this makes available 256

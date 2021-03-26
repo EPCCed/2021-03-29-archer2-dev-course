@@ -1,7 +1,7 @@
 ---
 title: "Bootstrapping your use of ARCHER2"
 teaching: 15
-exercises: 120
+exercises: 20
 questions:
 - "How can I get started with using ARCHER?"
 objectives:

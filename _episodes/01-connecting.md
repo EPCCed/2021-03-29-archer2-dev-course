@@ -117,7 +117,7 @@ Information on how to transfer data efficiently using the above methods is avail
 > > To verify the archive is valid, you would use the `zip` command again, this time with the `-t` 
 > > option:
 > > ```
-> > auser@uan01:~> zip -t large_data_output.zip
+> > auser@uan01:~> zip -T large_data_output.zip
 > > ```
 > > {: .language-bash}
 > {: .solution}

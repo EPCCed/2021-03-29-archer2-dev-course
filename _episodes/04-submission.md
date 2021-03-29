@@ -103,21 +103,8 @@ nid001008      1    standard        idle  256   2:64:2 244046        0      1   
 > [auser@uan01:~> sinfo -n nid001005 -o "%n %c %m"
 > ```
 > {: .language-bash}
-> This should display the resources available for a standard node. Can you use `sinfo` to find out the range of
-> node IDs for the high memory nodes?
-> > ## Solution
-> > The high memory nodes have IDs `nid001001-nid001004`. You can get this by using:
-> >
-> > ```
-> > auser@uan01:~> sinfo -N -l -S "-m" | less
-> > ```
-> > {: .language-bash}
-> >
-> > The `-S "-m"` option tells `sinfo` to print the node list sorted by decreasing memory per node. This
-> > output is then piped into `less` so we can examine the output a page at a time without it scrolling
-> > off the screen.
-> >
-> {: .solution}
+> This should display the resources available for a standard node. 
+> 
 > It is also possible to search nodes by state. Can you find all the free nodes in the system?
 > > ## Solution
 > > `sinfo` lets you specify the state of a node to search for, so to get all the free nodes in the system you can use:
@@ -150,27 +137,32 @@ two nodes.
 #SBATCH --time=0:10:0
 #SBATCH --partition=standard
 #SBATCH --qos=standard
-#SBATCH --account=ta004
+#SBATCH --account=ta022
+#SBATCH --hint=nomultithread
+#SBATCH --distribution=block:block
 
+module load epcc-job-env
 module load xthi
 
 export OMP_NUM_THREADS=1
 
 # srun to launch the executable
-srun --cpu-bind=cores xthi
+srun xthi
 ```
 {: .language-bash}
 
 The options shown here are:
 
-* `--job-name=my_mpi_job` - Set the name for the job that will be displayed in Slurm output
-* `--nodes=2` - Select two nodes for this job
-* `--ntasks-per-node=128` - Set 128 parallel processes per node (usually corresponds to MPI ranks)
-* `--cpus-per-task=1` - Number of cores to allocate per parallel process 
-* `--time=0:10:0` - Set 10 minutes maximum walltime for this job
-* `--partition=standard` - Submit to the standard set of nodes
+* `--job-name=my_mpi_job` - Set the name for the job that will be displayed in Slurm output.
+* `--nodes=2` - Select two nodes for this job.
+* `--ntasks-per-node=128` - Set 128 parallel processes per node (usually corresponds to MPI ranks).
+* `--cpus-per-task=1` - Number of cores to allocate per parallel process.
+* `--time=0:10:0` - Set 10 minutes maximum walltime for this job.
+* `--partition=standard` - Submit to the standard set of nodes.
 * `--qos=standard` - Submit with the standard quality of service settings.
-* `--account={{site.gid}}` - Charge the job to the `{{site.gid}}` budget
+* `--account=ta022` - Charge the job to the `ta022` budget.
+* `--hint=nomultithread` - Ensures that work is distributed amongst physical cores.
+* `--distribution=block:block` - Defines how work is loaded onto the nodes and processors.
 
 We will discuss the `srun` command further below.
 
@@ -201,7 +193,8 @@ Slurm reports back with the job ID for the job you have submitted
 > 
 > > ## Solution
 > > 
-> > (1) Budget: None - fails if submitted without a budget specified
+> > (1) Budget: This depends -- if you only have one budget associated with an account, or if you have set 
+> > up a default budget, Slurm will use that as a default. Otherwise, Slurm will not let your job run.
 > >
 > > You can get the answers to 2. and 3. this with the following script (once you have realised that you must
 > >specify a budget!):
@@ -209,7 +202,7 @@ Slurm reports back with the job ID for the job you have submitted
 > > ```
 > > #!/bin/bash
 > > #SBATCH --job-name=my_mpi_job
-> > #SBATCH --account=ta004
+> > #SBATCH --account=ta022
 > >
 > > echo "Nodes: $SLURM_JOB_NUM_NODES"
 > > echo "Tasks per node: $SLURM_NTASKS_PER_NODE"
@@ -291,7 +284,7 @@ values supplied to `sbatch` to work out how many parallel processes to launch). 
 our `srun` command simply looks like:
 
 ```
-srun --cpu-bind=cores xthi
+srun xthi
 ```
 {: .language-bash}
 
@@ -340,15 +333,19 @@ per node and 16 OpenMP threads per MPI task (so all 256 cores across both nodes 
 #SBATCH --time=0:10:0
 #SBATCH --partition=standard
 #SBATCH --qos=standard
-#SBATCH --account={{site.gid}}
+#SBATCH --account=ta022
+#SBATCH --hint=nomultithread
+#SBATCH --distribution=block:block
 
+module load epcc-job-env
 module load xthi
 
 export OMP_NUM_THREADS=16
 
 # Load modules, etc.
 # srun to launch the executable
-srun --cpu-bind=cores xthi
+
+srun xthi
 ```
 {: .language-bash}
 

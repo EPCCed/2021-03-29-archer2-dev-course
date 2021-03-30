@@ -55,7 +55,7 @@ directory `/work/ta017/shared/GMX_sub.slurm`.
 #!/bin/bash
 
 #SBATCH --job-name=GMX_test
-#SBATCH --account=ta017
+#SBATCH --account=ta022
 #SBATCH --partition=standard
 #SBATCH --qos=short
 #SBATCH --reservation=shortqos
@@ -130,7 +130,7 @@ OpenMP threads always multiply to 128 or less).
 #!/bin/bash
 
 #SBATCH --job-name=GMX_test
-#SBATCH --account=ta017
+#SBATCH --account=ta022
 #SBATCH --partition=standard
 #SBATCH --qos=short
 #SBATCH --reservation=shortqos
@@ -177,16 +177,19 @@ two threads per core. If we remove this option, this makes available 256
 ```
 #!/usr/bin/env bash
 
+#SBATCH --job-name=GMX_test
+#SBATCH --account=ta022
 #SBATCH --partition=standard
-#SBATCH --time=00:10:00
+#SBATCH --qos=short
+#SBATCH --reservation=shortqos
+#SBATCH --time=0:5:0
 
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=8
+#SBATCH --tasks-per-node=128
+#SBATCH --cpus-per-task=1
 
 #SBATCH --hint=multithread
-#SBATCH --distribution=block:cyclic
-
-#SBATCH --cpus-per-task=32
+#SBATCH --distribution=block:block
 
 module load epcc-job-env
 module load xthi/1.0
